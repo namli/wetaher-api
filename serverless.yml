@@ -1,0 +1,25 @@
+service: fastify-influxdb-api
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-central-1
+  stage: dev
+  profile: work
+  environment:
+    NODE_ENV: production
+    INFLUXDB_URL: ${env:INFLUXDB_URL}
+    INFLUXDB_TOKEN: ${env:INFLUXDB_TOKEN}
+    INFLUXDB_ORG: ${env:INFLUXDB_ORG}
+
+plugins:
+  - serverless-offline
+
+functions:
+  api:
+    handler: dist/handler.handler 
+    events:
+      - httpApi: '*'
+
+package:
+  individually: true
